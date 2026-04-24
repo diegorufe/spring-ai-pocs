@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: shell
+
+  ai:
+    ollama:
+      base-url: http://localhost:11434   # URL por defecto de Ollama
+      chat:
+        options:
+          # model: llama3.1:8b
+          model: qwen2.5:14b
+
+    mcp:
+      client:
+        name: mcp-shell-client
+        type: ASYNC
+        sse:
+          connections:
+            stores:
+              url: http://localhost:8010
+            products:
+              url: http://localhost:8011
+            stocks:
+              url: http://localhost:8012
+
+
+  web:
+    resources:
+      static-locations: file:./../../chat-ui

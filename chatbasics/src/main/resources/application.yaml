@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: chatbasics
+
+  ai:
+    ollama:
+      base-url: http://localhost:11434   # URL por defecto de Ollama
+      chat:
+        options:
+          model: llama3.2:3b # Bastante rapido pero impreciso
+          #model: qwen2.5-coder:14b # Bastante preciso pero lento
+
+
+  web:
+    resources:
+      static-locations: file:./../chat-ui

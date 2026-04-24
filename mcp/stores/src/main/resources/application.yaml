@@ -1,0 +1,18 @@
+server:
+  port: 8010
+
+spring:
+  application:
+    name: stores
+  ai:
+    mcp:
+      server:
+        enabled: true
+        type: ASYNC
+        annotation-scanner:
+          enabled: true  # Enable/disable annotation scanning
+
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/mcpdb
+    username: sa
+    password: root

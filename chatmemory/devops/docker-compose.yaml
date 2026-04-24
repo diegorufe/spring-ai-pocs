@@ -1,0 +1,11 @@
+
+services:
+  db:
+    image: postgres:16
+    container_name: db
+    environment:
+      POSTGRES_USER: sa
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: chatdb
+    ports:
+      - "5432:5432"

@@ -1,0 +1,19 @@
+
+services:
+  db:
+    image: postgres:16
+    container_name: db
+    environment:
+      POSTGRES_USER: sa
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: mcpdb
+    ports:
+      - "5432:5432"
+
+  flyway:
+    image: flyway/flyway:10
+    depends_on:
+      - db
+    command: -url=jdbc:postgresql://db:5432/mcpdb -user=sa -password=root migrate
+    volumes:
+      - ./db/migrations/versions:/flyway/sql

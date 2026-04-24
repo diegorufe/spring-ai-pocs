@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WorkspaceSettings">
+    <project name="chatmemory" path="$PROJECT_DIR$/../chatmemory" />
+    <project name="chatbasics" path="$PROJECT_DIR$/../chatbasics" />
+    <project name="stores" path="$PROJECT_DIR$/../mcp/stores" />
+    <project name="products" path="$PROJECT_DIR$/../mcp/products" />
+    <project name="shell" path="$PROJECT_DIR$/../mcp/shell" />
+    <project name="stocks" path="$PROJECT_DIR$/../mcp/stocks" />
+    <project name="vectordatabases" path="$PROJECT_DIR$/../vectordatabases" />
+    <option name="workspace" value="true" />
+  </component>
+</project>
