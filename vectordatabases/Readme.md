@@ -1,4 +1,4 @@
-# Vector databases
+# Vector databases
 
 [Documentación Spring AI vector databases](https://docs.spring.io/spring-ai/reference/api/vectordbs.html)
 
@@ -119,7 +119,7 @@ LIMIT 5;
 
 En lugar de comparar el vector query contra **todos** los vectores de la base de datos (búsqueda exacta), ANN usa atajos inteligentes para encontrar resultados **muy cercanos al óptimo**, pero mucho más rápido.
 
-Por defecto posgres sin indice utilizar KNN
+Por defecto posgres sin indice utiliza KNN
 
 ---
 
