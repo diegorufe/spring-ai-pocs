@@ -1,0 +1,19 @@
+
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    container_name: db
+    environment:
+      POSTGRES_USER: sa
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: ragdb
+    ports:
+      - "5432:5432"
+
+  flyway:
+    image: flyway/flyway:10
+    depends_on:
+      - db
+    command: -url=jdbc:postgresql://db:5432/ragdb -user=sa -password=root migrate
+    volumes:
+      - ./db/migrations/versions:/flyway/sql

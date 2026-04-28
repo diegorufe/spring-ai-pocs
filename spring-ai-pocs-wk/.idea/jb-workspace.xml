@@ -8,6 +8,7 @@
     <project name="shell" path="$PROJECT_DIR$/../mcp/shell" />
     <project name="stocks" path="$PROJECT_DIR$/../mcp/stocks" />
     <project name="vectordatabases" path="$PROJECT_DIR$/../vectordatabases" />
+    <project name="rag" path="$PROJECT_DIR$/../rag" />
     <option name="workspace" value="true" />
   </component>
 </project>
