@@ -4,6 +4,7 @@ package com.springaipoc.rag.driven.database.adapters;
 import com.springaipoc.rag.application.ports.driven.DocumentInfoRepositoryPort;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.reader.markdown.MarkdownDocumentReader;
 import org.springframework.ai.reader.markdown.config.MarkdownDocumentReaderConfig;
@@ -15,16 +16,20 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
+@Slf4j
 public class DocumentInfoRepositoryAdapter implements DocumentInfoRepositoryPort {
 
     private static final int MAX_LENGTH_DOCUMENT = 2000;
+
+    private static final int MAX_DOCUMENTS_SAVE = 5;
+
+    private static final int MAX_ATTEMPTS = 3;
 
     private final VectorStore vectorStore;
 
@@ -67,7 +72,31 @@ public class DocumentInfoRepositoryAdapter implements DocumentInfoRepositoryPort
                 })
                 .toList();
 
-        this.vectorStore.add(documents);
+
+        AtomicInteger counter = new AtomicInteger();
+
+        // En local con ollama se nos quedará sin memoria, por lo que particionamos a la hora de guardar
+        Map<Integer, List<Document>> grouped =
+                documents.stream()
+                        .collect(Collectors.groupingBy(i -> counter.getAndIncrement() / MAX_DOCUMENTS_SAVE));
+
+        grouped.values().forEach(this::addWithRetry);
+    }
+
+    @SneakyThrows
+    private void addWithRetry(List<Document> docs) {
+        for (int attempt = 1; true; attempt++) {
+            try {
+                this.vectorStore.add(docs);
+                return;
+            } catch (Exception e) {
+                log.warn("Intento {}/{} fallido: {}", attempt, MAX_ATTEMPTS, e.getMessage());
+                if (attempt == MAX_ATTEMPTS) {
+                    throw new RuntimeException("Fallo tras " + MAX_ATTEMPTS + " intentos", e);
+                }
+                Thread.sleep(1000L * attempt); // backoff: 1s, 2s, 3s
+            }
+        }
     }
 
     @Override

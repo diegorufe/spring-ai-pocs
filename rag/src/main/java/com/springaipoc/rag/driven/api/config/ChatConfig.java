@@ -18,11 +18,12 @@ public class ChatConfig {
             ChatMemory chatMemory
     ) {
         return ChatClient.builder(chatModel)
-                .defaultSystem(SYSTEM_MESSAGE_TEXT)
-                .defaultAdvisors(
-                        MessageChatMemoryAdvisor.builder(chatMemory)
-                                .build()
-                )
+                .build();
+    }
+
+    @Bean
+    MessageChatMemoryAdvisor messageChatMemoryAdvisor(ChatMemory chatMemory) {
+        return MessageChatMemoryAdvisor.builder(chatMemory)
                 .build();
     }
 }

@@ -1,3 +1,29 @@
 spring:
   application:
     name: rag
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ragdb
+    username: sa
+    password: root
+  ai:
+    ollama:
+      base-url: http://localhost:11434   # URL por defecto de Ollama
+      chat:
+        options:
+          model: qwen2.5:14b
+          # model: llama3.1:8b
+      embedding:
+        options:
+          model: bge-m3 # nomic-embed-text
+    vectorstore:
+      pgvector:
+        index-type: HNSW
+        distance-type: COSINE_DISTANCE
+        dimensions: 1536 # replace the 1536 with the actual embedding dimension if you are using a different dimension. PGvector supports at most 2000 dimensions for HNSW indexes.
+        max-document-batch-size: 10000 # Optional: Maximum number of documents per batch
+
+
+  web:
+    resources:
+      static-locations: file:./../chat-ui

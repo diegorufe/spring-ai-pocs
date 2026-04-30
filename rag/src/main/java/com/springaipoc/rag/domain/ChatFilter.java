@@ -11,8 +11,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ChatFilter {
     private String input;
-    private Integer topK;
-    private String filterExpression;
-    private Double similarityThreshold;
-    private boolean allowEmptyContext;
+
+    @Builder.Default
+    private Integer topK = 5;
+
+    @Builder.Default
+    private Double similarityThreshold = 0.5;
+
+    @Builder.Default
+    private boolean allowEmptyContext = false;
 }
