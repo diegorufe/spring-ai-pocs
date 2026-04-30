@@ -79,7 +79,7 @@ Documentación de configuración y dependencias https://docs.spring.io/spring-ai
 - [Chat memoria](chatmemory/Readme.md)
 - [MCP](mcp/Readme.md)
 - [Vector databases](vectordatabases/Readme.md)
-- [RAG] (rag/Readme.md)
+- [RAG](rag/Readme.md)
 - [Spring ai agents] WIP
 
 
