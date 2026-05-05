@@ -1,7 +1,7 @@
-package com.springaipoc.chatmemory.driven.api;
+package com.springaipoc.agent.driven.api.adapters;
 
-import com.springaipoc.chatmemory.application.ports.driven.ChatRepositoryPort;
-import com.springaipoc.chatmemory.domain.filters.ChatFilter;
+import com.springaipoc.agent.application.ports.driven.ChatRepositoryPort;
+import com.springaipoc.agent.domain.filters.ChatFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.memory.ChatMemory;
@@ -10,7 +10,7 @@ import reactor.core.publisher.Flux;
 
 import java.util.Objects;
 
-import static com.springaipoc.chatmemory.driven.api.constants.ChatConstants.DEFAULT_CONVERSATION_ID;
+import static com.springaipoc.agent.driven.api.constants.ChatConstants.DEFAULT_CONVERSATION_ID;
 
 @Repository
 @RequiredArgsConstructor
@@ -22,9 +22,8 @@ public class ChatRepositoryAdapter implements ChatRepositoryPort {
 
     private ChatClient.ChatClientRequestSpec generateMessage(ChatFilter chatFilter) {
         return this.chatClient
-                .prompt()
-                .advisors(advisorSpec -> advisorSpec.param(ChatMemory.CONVERSATION_ID, DEFAULT_CONVERSATION_ID))
-                .user(chatFilter.getInput());
+                .prompt(chatFilter.getInput())
+                .advisors(advisorSpec -> advisorSpec.param(ChatMemory.CONVERSATION_ID, DEFAULT_CONVERSATION_ID));
     }
 
     @Override
@@ -32,7 +31,7 @@ public class ChatRepositoryAdapter implements ChatRepositoryPort {
         return this.generateMessage(chatFilter)
                 .stream()
                 .chatResponse()
-                .map(chatResponse -> Objects.requireNonNull(chatResponse.getResult()).getOutput().getText());
+                .map(chatResponse -> Objects.requireNonNull(Objects.requireNonNull(chatResponse.getResult()).getOutput().getText()));
     }
 
     @Override
