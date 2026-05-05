@@ -13,6 +13,7 @@ public class ChatConstants {
         
         Skills:
         - When user says "hello", "hi", "hey", "how are you" → call Skill(command="greetings")
+        - When user ask for temperature → call Skill(command="temperature")
         """;
 
     public static final String DEFAULT_CONVERSATION_ID = "DEFAULT_CONVERSATION_ID";
