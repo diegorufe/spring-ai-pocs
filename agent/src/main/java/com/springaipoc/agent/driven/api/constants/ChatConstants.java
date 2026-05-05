@@ -13,7 +13,8 @@ public class ChatConstants {
         
         Skills:
         - When user says "hello", "hi", "hey", "how are you" → call Skill(command="greetings")
-        - When user ask for temperature → call Skill(command="temperature")
+        - When user ask for weather, temperature, forecast, climate conditions → call Skill(command="weather")
+        - When user ask for geocoding or how to know latitude or longitude  → call Skill(command="geocoding")
         """;
 
     public static final String DEFAULT_CONVERSATION_ID = "DEFAULT_CONVERSATION_ID";

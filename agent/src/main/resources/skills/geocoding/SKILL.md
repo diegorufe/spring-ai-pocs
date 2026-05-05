@@ -1,5 +1,5 @@
 ---
-name: meteo
+name: geocoding
 description: MUST be called when the user provides a city name and you need to convert it into coordinates using Open-Meteo Geocoding API.
 ---
 
