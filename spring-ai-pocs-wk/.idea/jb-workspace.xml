@@ -10,6 +10,9 @@
     <project name="vectordatabases" path="$PROJECT_DIR$/../vectordatabases" />
     <project name="rag" path="$PROJECT_DIR$/../rag" />
     <project name="agent" path="$PROJECT_DIR$/../agent-utils/skills" />
+    <project name="multishell" path="$PROJECT_DIR$/../agent-utils/multi-agent/multishell" />
+    <project name="geocoding" path="$PROJECT_DIR$/../agent-utils/multi-agent/geocoding" />
+    <project name="weather" path="$PROJECT_DIR$/../agent-utils/multi-agent/weather" />
     <option name="workspace" value="true" />
   </component>
 </project>

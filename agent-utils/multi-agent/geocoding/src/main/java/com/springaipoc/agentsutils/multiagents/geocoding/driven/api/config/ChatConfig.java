@@ -1,7 +1,7 @@
-package com.springaipoc.agentsutils.skills.driven.api.config;
+package com.springaipoc.agentsutils.multiagents.geocoding.driven.api.config;
 
-import com.springaipoc.agentsutils.skills.driven.api.advisorts.MyLoggingAdvisor;
-import com.springaipoc.agentsutils.skills.driven.api.constants.ChatConstants;
+import com.springaipoc.agentsutils.multiagents.geocoding.driven.api.advisorts.MyLoggingAdvisor;
+import com.springaipoc.agentsutils.multiagents.geocoding.driven.api.constants.ChatConstants;
 import org.springaicommunity.agent.tools.*;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
@@ -33,22 +33,17 @@ public class ChatConfig {
                 .defaultToolCallbacks(SkillsTool.builder()
                         .addSkillsResources(this.skillPaths)
                         .toolDescriptionTemplate("""
-                                MANDATORY: You MUST call this tool whenever a user request matches 
-                                any of the available skills below. Do NOT answer from memory. 
+                                MANDATORY: You MUST call this tool whenever a user request matches
+                                any of the available skills below. Do NOT answer from memory.
                                 Always invoke the matching skill first.
                                 
                                 Available skills (invoke by exact name):
                                 %s
                                 
-                                Rule: If the user request relates to any skill above, 
+                                Rule: If the user request relates to any skill above,
                                 call it immediately before responding.
                                 """)
                         .build()
-                )
-
-                // Task orchestration
-                .defaultTools(
-                        TodoWriteTool.builder().build()
                 )
 
                 // Core Tools
@@ -62,8 +57,9 @@ public class ChatConfig {
 
                 // Advisors
                 .defaultAdvisors(
-                        ToolCallAdvisor.builder().conversationHistoryEnabled(true).build(),
-                        MessageChatMemoryAdvisor.builder(MessageWindowChatMemory.builder().maxMessages(500).build())
+                        ToolCallAdvisor.builder().conversationHistoryEnabled(true).build()
+                        ,
+                        MessageChatMemoryAdvisor.builder(MessageWindowChatMemory.builder().maxMessages(10).build())
                                 .order(Ordered.HIGHEST_PRECEDENCE + 1000)
                                 .build()
                         // logging advisor

@@ -1,25 +1,24 @@
-package com.springaipoc.agentsutils.skills.driven.api.config;
+package com.springaipoc.agentsutils.multiagents.multishell.driven.api.config;
 
-import com.springaipoc.agentsutils.skills.driven.api.advisorts.MyLoggingAdvisor;
-import com.springaipoc.agentsutils.skills.driven.api.constants.ChatConstants;
+import com.springaipoc.agentsutils.multiagents.multishell.driven.api.advisorts.MyLoggingAdvisor;
+import com.springaipoc.agentsutils.multiagents.multishell.driven.api.constants.ChatConstants;
+import org.springaicommunity.agent.common.task.subagent.SubagentReference;
+import org.springaicommunity.agent.common.task.subagent.SubagentType;
+import org.springaicommunity.agent.subagent.a2a.A2ASubagentDefinition;
+import org.springaicommunity.agent.subagent.a2a.A2ASubagentExecutor;
+import org.springaicommunity.agent.subagent.a2a.A2ASubagentResolver;
 import org.springaicommunity.agent.tools.*;
+import org.springaicommunity.agent.tools.task.TaskTool;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.client.advisor.ToolCallAdvisor;
 import org.springframework.ai.chat.memory.MessageWindowChatMemory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
-import org.springframework.core.io.Resource;
-
-import java.util.List;
 
 @Configuration
 public class ChatConfig {
-
-    @Value("${agent.skills.paths}")
-    private List<Resource> skillPaths;
 
     @Bean
     ChatClient chatClient(
@@ -29,21 +28,19 @@ public class ChatConfig {
                 // Main agent prompt
                 .defaultSystem(p -> p.text(ChatConstants.SYSTEM_MESSAGE_TEXT))
 
-                // Skills
-                .defaultToolCallbacks(SkillsTool.builder()
-                        .addSkillsResources(this.skillPaths)
-                        .toolDescriptionTemplate("""
-                                MANDATORY: You MUST call this tool whenever a user request matches 
-                                any of the available skills below. Do NOT answer from memory. 
-                                Always invoke the matching skill first.
-                                
-                                Available skills (invoke by exact name):
-                                %s
-                                
-                                Rule: If the user request relates to any skill above, 
-                                call it immediately before responding.
-                                """)
-                        .build()
+                // Task tool
+                .defaultToolCallbacks(
+                        TaskTool.builder()
+                                // Remote A2A subagent
+                                .subagentReferences(
+                                        new SubagentReference("http://localhost:9001/geocoding", A2ASubagentDefinition.KIND)
+//                                        new SubagentReference("http://localhost:9002/weather", A2ASubagentDefinition.KIND)
+                                )
+                                .subagentTypes(
+                                        new SubagentType(new A2ASubagentResolver(), new A2ASubagentExecutor())
+//                                        new SubagentType(new A2ASubagentResolver(), new A2ASubagentExecutor())
+                                )
+                                .build()
                 )
 
                 // Task orchestration

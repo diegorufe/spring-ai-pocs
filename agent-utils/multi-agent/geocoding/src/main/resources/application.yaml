@@ -1,0 +1,25 @@
+server:
+  port: 9001
+  servlet:
+    context-path: /geocoding
+
+
+spring:
+  application:
+    name: geocoding
+
+  ai:
+    ollama:
+      base-url: http://localhost:11434   # URL por defecto de Ollama
+      chat:
+        options:
+          model: qwen2.5:14b
+          # model: llama3.1:8b
+          # model: llama3.2:3b
+          temperature: 0.1
+          numCtx: 8192
+
+
+agent:
+  skills:
+    paths: classpath:/skills
