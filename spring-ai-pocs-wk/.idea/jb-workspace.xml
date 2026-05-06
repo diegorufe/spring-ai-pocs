@@ -9,7 +9,7 @@
     <project name="stocks" path="$PROJECT_DIR$/../mcp/stocks" />
     <project name="vectordatabases" path="$PROJECT_DIR$/../vectordatabases" />
     <project name="rag" path="$PROJECT_DIR$/../rag" />
-    <project name="agent" path="$PROJECT_DIR$/../agent" />
+    <project name="agent" path="$PROJECT_DIR$/../agent-utils/skills" />
     <option name="workspace" value="true" />
   </component>
 </project>

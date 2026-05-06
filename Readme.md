@@ -80,7 +80,7 @@ Documentación de configuración y dependencias https://docs.spring.io/spring-ai
 - [MCP](mcp/Readme.md)
 - [Vector databases](vectordatabases/Readme.md)
 - [RAG](rag/Readme.md)
-- [Spring ai agents](agent/Readme.md)
+- [Spring ai agents](agent-utils/Readme.md)
 
 
 
