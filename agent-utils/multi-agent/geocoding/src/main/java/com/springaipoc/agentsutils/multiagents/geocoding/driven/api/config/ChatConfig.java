@@ -48,10 +48,6 @@ public class ChatConfig {
 
                 // Core Tools
                 .defaultTools(
-                        ShellTools.builder().build(),
-                        FileSystemTools.builder().build(),
-                        GrepTool.builder().build(),
-                        GlobTool.builder().build(),
                         SmartWebFetchTool.builder(chatClientBuilder.clone().build()).build()
                 )
 

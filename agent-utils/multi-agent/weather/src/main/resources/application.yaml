@@ -1,3 +1,23 @@
+server:
+  port: 9002
+  servlet:
+    context-path: /weather
+
+
 spring:
   application:
     name: weather
+
+  ai:
+    ollama:
+      base-url: http://localhost:11434   # URL por defecto de Ollama
+      chat:
+        options:
+          model: qwen2.5:14b
+          temperature: 0.1
+          numCtx: 8192
+
+
+agent:
+  skills:
+    paths: classpath:/skills

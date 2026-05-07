@@ -2,6 +2,7 @@ package com.springaipoc.agentsutils.multiagents.multishell.driven.api.config;
 
 import com.springaipoc.agentsutils.multiagents.multishell.driven.api.advisorts.MyLoggingAdvisor;
 import com.springaipoc.agentsutils.multiagents.multishell.driven.api.constants.ChatConstants;
+import com.springaipoc.agentsutils.multiagents.multishell.driven.api.executos.CustomA2ASubagentExecutor;
 import org.springaicommunity.agent.common.task.subagent.SubagentReference;
 import org.springaicommunity.agent.common.task.subagent.SubagentType;
 import org.springaicommunity.agent.subagent.a2a.A2ASubagentDefinition;
@@ -33,28 +34,13 @@ public class ChatConfig {
                         TaskTool.builder()
                                 // Remote A2A subagent
                                 .subagentReferences(
-                                        new SubagentReference("http://localhost:9001/geocoding", A2ASubagentDefinition.KIND)
-//                                        new SubagentReference("http://localhost:9002/weather", A2ASubagentDefinition.KIND)
+                                        new SubagentReference("http://localhost:9001/geocoding", A2ASubagentDefinition.KIND),
+                                        new SubagentReference("http://localhost:9002/weather", A2ASubagentDefinition.KIND)
                                 )
                                 .subagentTypes(
-                                        new SubagentType(new A2ASubagentResolver(), new A2ASubagentExecutor())
-//                                        new SubagentType(new A2ASubagentResolver(), new A2ASubagentExecutor())
+                                        new SubagentType(new A2ASubagentResolver(), new CustomA2ASubagentExecutor())
                                 )
                                 .build()
-                )
-
-                // Task orchestration
-                .defaultTools(
-                        TodoWriteTool.builder().build()
-                )
-
-                // Core Tools
-                .defaultTools(
-                        ShellTools.builder().build(),
-                        FileSystemTools.builder().build(),
-                        GrepTool.builder().build(),
-                        GlobTool.builder().build(),
-                        SmartWebFetchTool.builder(chatClientBuilder.clone().build()).build()
                 )
 
                 // Advisors
