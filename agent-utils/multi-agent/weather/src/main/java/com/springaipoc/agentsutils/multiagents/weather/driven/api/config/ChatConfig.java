@@ -3,6 +3,8 @@ package com.springaipoc.agentsutils.multiagents.weather.driven.api.config;
 
 import com.springaipoc.agentsutils.multiagents.weather.driven.api.advisorts.MyLoggingAdvisor;
 import com.springaipoc.agentsutils.multiagents.weather.driven.api.constants.ChatConstants;
+import io.a2a.server.agentexecution.AgentExecutor;
+import org.springaicommunity.a2a.server.executor.DefaultAgentExecutor;
 import org.springaicommunity.agent.tools.*;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
@@ -66,6 +68,17 @@ public class ChatConfig {
 
 
                 .build();
+    }
+
+
+    @Bean
+    public AgentExecutor agentExecutor(
+            ChatClient chatClient) {
+
+        return new DefaultAgentExecutor(chatClient, (chat, ctx) -> {
+            String msg = DefaultAgentExecutor.extractTextFromMessage(ctx.getMessage());
+            return chat.prompt(msg).call().content();
+        });
     }
 
 

@@ -1,10 +1,7 @@
 package com.springaipoc.agentsutils.multiagents.weather.driving.rest.config;
 
-import io.a2a.server.agentexecution.AgentExecutor;
 import io.a2a.spec.AgentCapabilities;
 import io.a2a.spec.AgentCard;
-import org.springaicommunity.a2a.server.executor.DefaultAgentExecutor;
-import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,15 +29,5 @@ public class A2AConfig {
                 .skills(List.of())
                 .protocolVersion("0.3.0")
                 .build();
-    }
-
-    @Bean
-    public AgentExecutor agentExecutor(
-            ChatClient chatClient) {
-
-        return new DefaultAgentExecutor(chatClient, (chat, ctx) -> {
-            String msg = DefaultAgentExecutor.extractTextFromMessage(ctx.getMessage());
-            return chat.prompt(msg).call().content();
-        });
     }
 }
