@@ -21,3 +21,15 @@ spring:
 agent:
   skills:
     paths: classpath:/skills
+
+
+a2a:
+  blocking:
+    agent:
+      timeout:
+        seconds: 300
+    consumption:
+      timeout:
+        seconds: 300
+  executor:
+    keep-alive-seconds: 300

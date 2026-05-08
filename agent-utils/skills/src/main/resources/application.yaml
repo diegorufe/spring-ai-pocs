@@ -8,14 +8,13 @@ spring:
       chat:
         options:
           model: qwen2.5:14b
-          # model: llama3.1:8b
           temperature: 0.1
           numCtx: 8192
 
 
   web:
     resources:
-      static-locations: file:./../chat-ui
+      static-locations: file:./../../chat-ui
 
 
 agent:
