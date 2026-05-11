@@ -51,6 +51,9 @@ public class ChatConfig {
                         SmartWebFetchTool.builder(chatClientBuilder.clone().build()).build()
                 )
 
+                // Task orchestration
+                .defaultTools(TodoWriteTool.builder().build())
+
                 // Advisors
                 .defaultAdvisors(
                         ToolCallAdvisor.builder().conversationHistoryEnabled(true).build(),

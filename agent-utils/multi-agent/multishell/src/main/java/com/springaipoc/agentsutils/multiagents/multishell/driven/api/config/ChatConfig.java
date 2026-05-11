@@ -43,6 +43,9 @@ public class ChatConfig {
                                 .build()
                 )
 
+                // Task orchestration
+                .defaultTools(TodoWriteTool.builder().build())
+
                 // Advisors
                 .defaultAdvisors(
                         ToolCallAdvisor.builder().conversationHistoryEnabled(true).build(),
