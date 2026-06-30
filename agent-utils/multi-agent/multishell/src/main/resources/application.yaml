@@ -14,4 +14,4 @@ spring:
 
   web:
     resources:
-      static-locations: file:./../../chat-ui
+      static-locations: file:./../../../chat-ui

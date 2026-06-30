@@ -6,13 +6,12 @@ import com.springaipoc.agentsutils.multiagents.multishell.driven.api.executos.Cu
 import org.springaicommunity.agent.common.task.subagent.SubagentReference;
 import org.springaicommunity.agent.common.task.subagent.SubagentType;
 import org.springaicommunity.agent.subagent.a2a.A2ASubagentDefinition;
-import org.springaicommunity.agent.subagent.a2a.A2ASubagentExecutor;
 import org.springaicommunity.agent.subagent.a2a.A2ASubagentResolver;
-import org.springaicommunity.agent.tools.*;
+import org.springaicommunity.agent.tools.TodoWriteTool;
 import org.springaicommunity.agent.tools.task.TaskTool;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
-import org.springframework.ai.chat.client.advisor.ToolCallAdvisor;
+import org.springframework.ai.chat.client.advisor.ToolCallingAdvisor;
 import org.springframework.ai.chat.memory.MessageWindowChatMemory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,9 +27,8 @@ public class ChatConfig {
         return chatClientBuilder
                 // Main agent prompt
                 .defaultSystem(p -> p.text(ChatConstants.SYSTEM_MESSAGE_TEXT))
-
-                // Task tool
-                .defaultToolCallbacks(
+                .defaultTools(
+                        // Task tool
                         TaskTool.builder()
                                 // Remote A2A subagent
                                 .subagentReferences(
@@ -40,24 +38,20 @@ public class ChatConfig {
                                 .subagentTypes(
                                         new SubagentType(new A2ASubagentResolver(), new CustomA2ASubagentExecutor())
                                 )
-                                .build()
+                                .build(),
+                        // Task orchestration
+                        TodoWriteTool.builder().build()
                 )
-
-                // Task orchestration
-                .defaultTools(TodoWriteTool.builder().build())
-
                 // Advisors
                 .defaultAdvisors(
-                        ToolCallAdvisor.builder().conversationHistoryEnabled(true).build(),
+                        ToolCallingAdvisor.builder()
+                                .conversationHistoryEnabled(true).build(),
                         MessageChatMemoryAdvisor.builder(MessageWindowChatMemory.builder().maxMessages(500).build())
-                                .order(Ordered.HIGHEST_PRECEDENCE + 1000)
                                 .build()
                         // logging advisor
                         ,
                         MyLoggingAdvisor.builder()
                                 .build())
-
-
                 .build();
     }
 
