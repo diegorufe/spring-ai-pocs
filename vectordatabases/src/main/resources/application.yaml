@@ -18,3 +18,8 @@ spring:
         distance-type: COSINE_DISTANCE
         dimensions: 1536 # replace the 1536 with the actual embedding dimension if you are using a different dimension. PGvector supports at most 2000 dimensions for HNSW indexes.
         max-document-batch-size: 10000 # Optional: Maximum number of documents per batch
+
+
+  jackson:
+    deserialization:
+      fail-on-null-for-primitives: false
