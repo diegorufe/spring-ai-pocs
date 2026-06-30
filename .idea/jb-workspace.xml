@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WorkspaceSettings">
+    <project name="rag" path="$PROJECT_DIR$/rag" />
+    <project name="chatbasics" path="$PROJECT_DIR$/chatbasics" />
+    <project name="chatmemory" path="$PROJECT_DIR$/chatmemory" />
+    <project name="vectordatabases" path="$PROJECT_DIR$/vectordatabases" />
+    <option name="workspace" value="true" />
+  </component>
+</project>
