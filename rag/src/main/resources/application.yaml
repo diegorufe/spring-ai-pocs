@@ -27,3 +27,7 @@ spring:
   web:
     resources:
       static-locations: file:./../chat-ui
+
+  jackson:
+    deserialization:
+      fail-on-null-for-primitives: false
