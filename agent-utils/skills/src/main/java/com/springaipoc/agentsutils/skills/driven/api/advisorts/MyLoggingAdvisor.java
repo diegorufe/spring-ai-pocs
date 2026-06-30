@@ -11,12 +11,15 @@ import org.springframework.ai.chat.messages.MessageType;
 import org.springframework.ai.chat.messages.ToolResponseMessage;
 import org.springframework.ai.model.ModelOptionsUtils;
 import org.springframework.ai.model.tool.ToolCallingChatOptions;
+import org.springframework.ai.util.JsonHelper;
 import org.springframework.util.StringUtils;
 
 import java.util.Objects;
 
 @Slf4j
 public class MyLoggingAdvisor implements BaseAdvisor {
+
+    private static final JsonHelper JSON_HELPER = new JsonHelper();
 
     private final int order;
 
@@ -55,11 +58,11 @@ public class MyLoggingAdvisor implements BaseAdvisor {
         if (this.showAvailableTools) {
             Object tools = "No Tools";
 
-            if (chatClientRequest.prompt().getOptions() instanceof ToolCallingChatOptions toolOptions) {
+            if (chatClientRequest.prompt().getOptions() instanceof ToolCallingChatOptions toolOptions && toolOptions.getToolCallbacks() != null) {
                 tools = toolOptions.getToolCallbacks().stream().map(tc -> tc.getToolDefinition().name()).toList();
             }
 
-            sb.append("\n - TOOLS: ").append(ModelOptionsUtils.toJsonString(tools));
+            sb.append("\n - TOOLS: ").append(JSON_HELPER.toJson(tools));
         }
 
         Message lastMessage = chatClientRequest.prompt().getLastUserOrToolResponseMessage();
