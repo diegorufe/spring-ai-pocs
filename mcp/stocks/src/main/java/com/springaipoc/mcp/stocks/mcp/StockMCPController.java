@@ -4,8 +4,8 @@ import com.springaipoc.mcp.stocks.application.ports.driving.GetStocksByProductCo
 import com.springaipoc.mcp.stocks.application.ports.driving.GetStocksByStoreCodeUseCasePort;
 import com.springaipoc.mcp.stocks.domain.Stock;
 import lombok.RequiredArgsConstructor;
-import org.springaicommunity.mcp.annotation.McpTool;
-import org.springaicommunity.mcp.annotation.McpToolParam;
+import org.springframework.ai.mcp.annotation.McpTool;
+import org.springframework.ai.mcp.annotation.McpToolParam;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
@@ -19,7 +19,7 @@ public class StockMCPController {
 
     private final GetStocksByStoreCodeUseCasePort getStocksByStoreCodeUseCasePort;
 
-    @McpTool(name = "getStocksByProductCode", description = "Get stocks by product code")
+    @org.springframework.ai.mcp.annotation.McpTool(name = "getStocksByProductCode", description = "Get stocks by product code")
     public Mono<List<Stock>> getStocksByProductCode(@McpToolParam(description = "Product code") String productCode) {
         return this.getStocksByProductCodeUseCasePort.execute(productCode).collectList();
     }

@@ -4,8 +4,8 @@ import com.springaipoc.mcp.stores.application.ports.driving.GetStoreByCodeUseCas
 import com.springaipoc.mcp.stores.application.ports.driving.ListStoresUseCasePort;
 import com.springaipoc.mcp.stores.domain.Store;
 import lombok.RequiredArgsConstructor;
-import org.springaicommunity.mcp.annotation.McpTool;
-import org.springaicommunity.mcp.annotation.McpToolParam;
+import org.springframework.ai.mcp.annotation.McpTool;
+import org.springframework.ai.mcp.annotation.McpToolParam;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
