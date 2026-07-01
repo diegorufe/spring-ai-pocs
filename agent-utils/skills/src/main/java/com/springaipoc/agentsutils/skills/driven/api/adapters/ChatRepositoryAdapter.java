@@ -3,17 +3,17 @@ package com.springaipoc.agentsutils.skills.driven.api.adapters;
 import com.springaipoc.agentsutils.skills.application.ports.driven.ChatRepositoryPort;
 import com.springaipoc.agentsutils.skills.domain.filters.ChatFilter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 
-import java.util.Objects;
-
 import static com.springaipoc.agentsutils.skills.driven.api.constants.ChatConstants.DEFAULT_CONVERSATION_ID;
 
 @Repository
 @RequiredArgsConstructor
+@Slf4j
 public class ChatRepositoryAdapter implements ChatRepositoryPort {
 
     private final ChatClient chatClient;
@@ -30,8 +30,14 @@ public class ChatRepositoryAdapter implements ChatRepositoryPort {
     public Flux<String> streamChat(ChatFilter chatFilter) {
         return this.generateMessage(chatFilter)
                 .stream()
-                .chatResponse()
-                .map(chatResponse -> Objects.requireNonNull(Objects.requireNonNull(chatResponse.getResult()).getOutput().getText()));
+                .content();
+    }
+
+    @Override
+    public String syncChat(ChatFilter chatFilter) {
+        return this.generateMessage(chatFilter)
+                .call()
+                .content();
     }
 
     @Override

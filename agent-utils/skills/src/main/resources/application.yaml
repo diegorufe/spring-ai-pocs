@@ -4,12 +4,25 @@ spring:
 
   ai:
     ollama:
+      enabled: true
       base-url: http://localhost:11434   # URL por defecto de Ollama
       chat:
         options:
           model: qwen2.5:14b
           temperature: 0.1
           numCtx: 8192
+
+    # --- groq ---
+    openai:
+      enabled: false
+      base-url: https://api.groq.com/openai/v1
+      api-key: ${GROQ_API_KEY:null}
+      chat:
+        options:
+          model: openai/gpt-oss-120b
+          temperature: 0.1
+        extra-body:
+          include_reasoning: false
 
 
   web:

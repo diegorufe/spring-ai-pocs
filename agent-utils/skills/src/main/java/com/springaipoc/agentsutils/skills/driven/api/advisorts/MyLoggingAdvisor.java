@@ -14,6 +14,7 @@ import org.springframework.ai.util.JsonHelper;
 import org.springframework.util.StringUtils;
 
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicLong;
 
 @Slf4j
 public class MyLoggingAdvisor implements BaseAdvisor {
@@ -29,6 +30,8 @@ public class MyLoggingAdvisor implements BaseAdvisor {
     public final boolean showUserText;
 
     public final boolean showAssistantText;
+
+    private final AtomicLong time = new AtomicLong();
 
 
     private MyLoggingAdvisor(int order, boolean showSystemMessage, boolean showAvailableTools, boolean showUserText, boolean showAssistantText) {
@@ -46,7 +49,7 @@ public class MyLoggingAdvisor implements BaseAdvisor {
 
     @Override
     public @NonNull ChatClientRequest before(@NonNull ChatClientRequest chatClientRequest, @NonNull AdvisorChain advisorChain) {
-
+        this.time.set(System.currentTimeMillis());
         StringBuilder sb = new StringBuilder("\nBefore | USER: ");
 
         if (this.showSystemMessage) {
@@ -72,8 +75,7 @@ public class MyLoggingAdvisor implements BaseAdvisor {
                 var tr = toolResponse.name() + ": " + first(toolResponse.responseData(), 300);
                 sb.append("\n - TOOL-RESPONSE: ").append(tr);
             }
-        }
-        else if (lastMessage.getMessageType() == MessageType.USER) {
+        } else if (lastMessage.getMessageType() == MessageType.USER) {
             if (this.showUserText && StringUtils.hasText(lastMessage.getText())) {
                 sb.append("\n - TEXT: ").append(first(lastMessage.getText(), 300));
             }
@@ -87,6 +89,7 @@ public class MyLoggingAdvisor implements BaseAdvisor {
     @Override
     public @NonNull ChatClientResponse after(ChatClientResponse chatClientResponse, @NonNull AdvisorChain advisorChain) {
         StringBuilder sb = new StringBuilder("\nAfter | ASSISTANT: ");
+        this.addTimeToBuilder(sb);
 
         if (chatClientResponse.chatResponse() == null) {
             sb.append(" No chat response ");
@@ -114,6 +117,10 @@ public class MyLoggingAdvisor implements BaseAdvisor {
         log.info(sb.toString());
 
         return chatClientResponse;
+    }
+
+    private void addTimeToBuilder(StringBuilder stringBuilder) {
+        stringBuilder.append("[TIME: ").append(System.currentTimeMillis() - this.time.get()).append(" ms]");
     }
 
     private String first(String text, int n) {
@@ -148,6 +155,7 @@ public class MyLoggingAdvisor implements BaseAdvisor {
             this.showAvailableTools = showAvailableTools;
             return this;
         }
+
         public Builder showAssistantText(boolean showAssistantText) {
             this.showAssistantText = showAssistantText;
             return this;

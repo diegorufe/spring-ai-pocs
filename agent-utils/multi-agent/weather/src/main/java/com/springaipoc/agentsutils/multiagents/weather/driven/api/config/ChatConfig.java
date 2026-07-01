@@ -5,7 +5,8 @@ import com.springaipoc.agentsutils.multiagents.weather.driven.api.advisorts.MyLo
 import com.springaipoc.agentsutils.multiagents.weather.driven.api.constants.ChatConstants;
 import io.a2a.server.agentexecution.AgentExecutor;
 import org.springaicommunity.a2a.server.executor.DefaultAgentExecutor;
-import org.springaicommunity.agent.tools.*;
+import org.springaicommunity.agent.tools.SkillsTool;
+import org.springaicommunity.agent.tools.SmartWebFetchTool;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.client.advisor.ToolCallingAdvisor;
@@ -44,11 +45,7 @@ public class ChatConfig {
                                         """)
                                 .build(),
                         // Core Tools
-                        ShellTools.builder().build(),
-                        FileSystemTools.builder().build(),
-                        SmartWebFetchTool.builder(chatClientBuilder.clone().build()).build(),
-                        // Task orchestration
-                        TodoWriteTool.builder().build()
+                        SmartWebFetchTool.builder(chatClientBuilder.clone().build()).build()
 
                 )
                 // Advisors
@@ -56,7 +53,7 @@ public class ChatConfig {
                         ToolCallingAdvisor.builder()
                                 .conversationHistoryEnabled(true).build()
                         ,
-                        MessageChatMemoryAdvisor.builder(MessageWindowChatMemory.builder().maxMessages(500).build())
+                        MessageChatMemoryAdvisor.builder(MessageWindowChatMemory.builder().maxMessages(10).build())
                                 .build()
                         // logging advisor
                         ,

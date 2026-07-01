@@ -2,6 +2,8 @@ package com.springaipoc.agentsutils.skills.driving.rest.controllers;
 
 import com.springaipoc.agentsutils.skills.application.ports.driving.ClearMemoryChatUseCasePort;
 import com.springaipoc.agentsutils.skills.application.ports.driving.StreamingChatUseCasePort;
+import com.springaipoc.agentsutils.skills.application.ports.driving.SyncChatUseCasePort;
+import com.springaipoc.agentsutils.skills.application.usecases.SyncChatUseCase;
 import com.springaipoc.agentsutils.skills.domain.filters.ChatFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,9 +19,17 @@ import reactor.core.publisher.Flux;
 public class ChatController {
     private final StreamingChatUseCasePort streamingChatUseCase;
     private final ClearMemoryChatUseCasePort clearMemoryChatUseCasePort;
+    private final SyncChatUseCasePort syncChatUseCase;
 
     @Value("${spring.ai.ollama.chat.options.model}")
     private String model;
+
+    @PostMapping("/sync")
+    public ResponseEntity<String> chatSync(
+            @RequestBody ChatFilter chatFilter
+    ) {
+        return ResponseEntity.ok(syncChatUseCase.execute(chatFilter));
+    }
 
     @PostMapping(value = "/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<String> stream(

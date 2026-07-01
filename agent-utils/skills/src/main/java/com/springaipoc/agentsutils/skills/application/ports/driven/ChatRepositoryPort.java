@@ -7,5 +7,7 @@ public interface ChatRepositoryPort {
 
     Flux<String> streamChat(ChatFilter chatFilter);
 
+    String syncChat(ChatFilter chatFilter);
+
     void clearMemory();
 }
