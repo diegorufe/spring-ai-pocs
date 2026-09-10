@@ -32,10 +32,11 @@ public class ChatConfig {
         // Para tools sse es necesario obtenerlo al principio, no es capaz de hacerlo de forma dinámica
         // Esto se debe que dentro de un FLUX o un Mono no se puede realizar block por que no esta permitido
         // Si fuera tipo SYNC no habria problema por que realiza una llamada HTTP y no realiza block para obtener el resultado.
-        final ToolCallback[] callbacks = Mono
-                .fromCallable(toolCallbackProvider::getToolCallbacks)
-                .subscribeOn(Schedulers.boundedElastic())
-                .block();
+        // TODO en la siguientes versiones parece estar resuelto
+//        final ToolCallback[] callbacks = Mono
+//                .fromCallable(toolCallbackProvider::getToolCallbacks)
+//                .subscribeOn(Schedulers.boundedElastic())
+//                .block();
 
         return chatClientBuilder
                 .defaultSystem(SYSTEM_MESSAGE_TEXT)
