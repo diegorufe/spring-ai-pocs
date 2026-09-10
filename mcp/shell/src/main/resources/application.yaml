@@ -14,7 +14,7 @@ spring:
     # --- groq / openai ---
     openai:
       enabled: false
-      base-url: ${GROQ_API_URL:null}
+      base-url: ${GROQ_API_URL:https://api.groq.com/openai/v1}
       api-key: ${GROQ_API_KEY:null}
       chat:
         options:
