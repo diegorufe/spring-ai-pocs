@@ -5,6 +5,16 @@
     <project name="chatbasics" path="$PROJECT_DIR$/chatbasics" />
     <project name="chatmemory" path="$PROJECT_DIR$/chatmemory" />
     <project name="vectordatabases" path="$PROJECT_DIR$/vectordatabases" />
+    <project name="agent-utils" path="$PROJECT_DIR$/agent-utils" />
+    <project name="skills" path="$PROJECT_DIR$/agent-utils/skills" />
+    <project name="weather" path="$PROJECT_DIR$/agent-utils/multi-agent/weather" />
+    <project name="geocoding" path="$PROJECT_DIR$/agent-utils/multi-agent/geocoding" />
+    <project name="multishell" path="$PROJECT_DIR$/agent-utils/multi-agent/multishell" />
+    <project name="mcp" path="$PROJECT_DIR$/mcp" />
+    <project name="shell" path="$PROJECT_DIR$/mcp/shell" />
+    <project name="stocks" path="$PROJECT_DIR$/mcp/stocks" />
+    <project name="stores" path="$PROJECT_DIR$/mcp/stores" />
+    <project name="products" path="$PROJECT_DIR$/mcp/products" />
     <option name="workspace" value="true" />
   </component>
 </project>

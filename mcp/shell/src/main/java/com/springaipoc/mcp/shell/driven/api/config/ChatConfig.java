@@ -4,8 +4,12 @@ import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.model.ChatModel;
+import org.springframework.ai.ollama.OllamaChatModel;
+import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.ai.tool.ToolCallback;
 import org.springframework.ai.tool.ToolCallbackProvider;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import reactor.core.publisher.Mono;
@@ -21,7 +25,7 @@ public class ChatConfig {
 
     @Bean
     ChatClient chatClient(
-            ChatModel chatModel,
+            ChatClient.Builder chatClientBuilder,
             ChatMemory chatMemory,
             ToolCallbackProvider toolCallbackProvider
     ) {
@@ -33,13 +37,25 @@ public class ChatConfig {
                 .subscribeOn(Schedulers.boundedElastic())
                 .block();
 
-        return ChatClient.builder(chatModel)
+        return chatClientBuilder
                 .defaultSystem(SYSTEM_MESSAGE_TEXT)
                 .defaultAdvisors(
                         MessageChatMemoryAdvisor.builder(chatMemory)
                                 .build()
                 )
-                .defaultToolCallbacks(Objects.requireNonNull(callbacks))
+                .defaultToolCallbacks(toolCallbackProvider)
                 .build();
+    }
+
+    @Bean
+    @ConditionalOnProperty(name = "spring.ai.openai.enabled", havingValue = "true")
+    public ChatClient.Builder chatClientBuilderWithOpenAi(@Qualifier("openAiChatModel") OpenAiChatModel openAiChatModel) {
+        return ChatClient.builder(openAiChatModel);
+    }
+
+    @Bean
+    @ConditionalOnProperty(name = "spring.ai.ollama.enabled", havingValue = "true")
+    public ChatClient.Builder chatClientBuilderWithOllama(@Qualifier("ollamaChatModel") OllamaChatModel ollamaChatModel) {
+        return ChatClient.builder(ollamaChatModel);
     }
 }

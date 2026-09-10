@@ -36,12 +36,7 @@ public class ChatRepositoryAdapter implements ChatRepositoryPort {
     public Flux<String> streamChat(ChatFilter chatFilter) {
         return this.generateMessage(chatFilter)
                 .stream()
-                .chatResponse()
-                .map(chatResponse -> Objects.requireNonNull(chatResponse.getResult()).getOutput().getText());
-        // De esta forma acumulamos mensaje y lo enviamos cada vez de nuevo entero concatenado con lo anterior
-//                .filter(s -> !s.isEmpty())
-//                .scan(new StringBuilder(), StringBuilder::append)
-//                .map(StringBuilder::toString);
+                .content();
     }
 
     @Override
